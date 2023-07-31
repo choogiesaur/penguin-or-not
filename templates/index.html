@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Penguin Classifier</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="container">
+    <h1>Penguin Classifier</h1>
+    <form action="/" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" id="file" class="file-input"><br><br>
+        <input type="submit" class="submit-button">
+    </form>
+    {% if error_message %}
+    <div class="error-message">
+        {{ error_message }}
+    </div>
+    {% endif %}
+    {% if image_path %}
+    <img src="{{ image_path }}" alt="Uploaded Image" class="uploaded-image">
+    {% endif %}
+    {% if prediction %}
+    <div class="prediction">
+        Prediction: {{ prediction.label }}<br>
+        Probability: {{ prediction.probability }}
+    </div>
+    {% endif %}
+</div>
+</body>
+</html>
+
