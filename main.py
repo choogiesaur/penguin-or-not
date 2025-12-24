@@ -59,7 +59,10 @@ async def read_root(request: Request, file: UploadFile = File(None)):
         # Run prediction
         image = PILImage.create(temp_file)
         pred, pred_idx, probs = model.predict(image)
-        prediction = {"label": str(pred), "probability": str(probs[pred_idx])}
+        stringy = str(pred)
+        # Convert probability to percentage
+        prob_value = probs[pred_idx].item() * 100
+        prediction = {"label": str(pred), "probability": f"{prob_value:.1f}%"}
 
     return templates.TemplateResponse(
         "index.html",
@@ -70,5 +73,6 @@ async def read_root(request: Request, file: UploadFile = File(None)):
 async def predict(file: UploadFile = File(...)):
     image = PILImage.create(await file.read())
     pred, pred_idx, probs = model.predict(image)
-    return {"prediction": str(pred), "probability": str(probs[pred_idx])}
-
+    # Convert probability to percentage
+    prob_value = probs[pred_idx].item() * 100
+    return {"prediction": str(pred), "probability": f"{prob_value:.1f}%"}
